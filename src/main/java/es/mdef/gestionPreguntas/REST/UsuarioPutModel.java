@@ -7,15 +7,8 @@ import es.mdef.gestionPreguntas.entidades.NoAdministrador.Departamento;
 import es.mdef.gestionPreguntas.entidades.NoAdministrador.Tipo;
 import es.mdef.gestionPreguntas.entidades.Usuario.Role;
 
-
-// La clase UsuarioModel.java es un modelo de representación utilizado para estructurar y simplificar la respuesta 
-// de la API REST. Esta clase extiende la clase RepresentationModel<UsuarioModel>, que es parte del módulo Spring HATEOAS 
-// y proporciona soporte para agregar enlaces a la representación de recursos.
-
-//La anotación @Relation(itemRelation = "usuario") indica que este modelo representa un recurso individual de tipo "usuario" en las respuestas de la API. 
 @Relation(itemRelation="usuario")
-public class UsuarioModel extends RepresentationModel<UsuarioModel>{
-	
+public class UsuarioPutModel extends RepresentationModel<UsuarioPutModel>{
 	private String nombre;
 	private String nombreUsuario;
 	private Departamento departamento;
@@ -26,51 +19,45 @@ public class UsuarioModel extends RepresentationModel<UsuarioModel>{
 	public String getNombre() {
 		return nombre;
 	}
-	
-	public String getNombreUsuario() {
-		return nombreUsuario;
-	}
-	
-	public Departamento getDepartamento() {
-		return departamento;
-	}
-	
-	public Tipo getTipo() {
-		return tipo;
-	}
-
-	public String getTelefono() {
-		return telefono;
-	}
-	
-	public Role getRole() {
-		return role;
-	}
-
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
+	public String getNombreUsuario() {
+		return nombreUsuario;
+	}
 	public void setNombreUsuario(String nombreUsuario) {
 		this.nombreUsuario = nombreUsuario;
 	}
-	
+	public Departamento getDepartamento() {
+		return departamento;
+	}
 	public void setDepartamento(Departamento departamento) {
 		this.departamento = departamento;
 	}
-	
+	public Tipo getTipo() {
+		return tipo;
+	}
 	public void setTipo(Tipo tipo) {
 		this.tipo = tipo;
 	}
-	
+	public String getTelefono() {
+		return telefono;
+	}
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-
+	public Role getRole() {
+		return role;
+	}
 	public void setRole(Role role) {
 		this.role = role;
 	}
+	@Override
+	public String toString() {
+		return "UsuarioPutModel [nombre=" + nombre + ", nombreUsuario=" + nombreUsuario + ", departamento="
+				+ departamento + ", tipo=" + tipo + ", telefono=" + telefono + ", role=" + role + "]";
+	}
+	
+	
 
-	
-	
 }
