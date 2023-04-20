@@ -1,19 +1,29 @@
 package es.mdef.gestionPreguntas.entidades;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 
 @Entity                                               // @Entity y @Table: Estas anotaciones indican que esta clase es una entidad de base de datos y debe mapearse a una tabla llamada "USUARIOS" en la base de datos.
 @Table(name="USUARIOS")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE) 
+@DiscriminatorColumn(name="tipo_role", discriminatorType = DiscriminatorType.CHAR)
+@DiscriminatorValue("null")
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 public class Usuario {
 	public static enum Role {
-		administrador,
-		noAdministrador
+		Administrador,
+		NoAdministrador
 	}
 
 	@Id                                               // La anotación @Id indica que el campo "id" es la clave primaria de la tabla de usuarios. 
@@ -38,7 +48,7 @@ public class Usuario {
 		return contrasena;
 	}
 	public Role getRole() {
-		return role;
+		return null;
 	}
 	public void setId(Long id) {
 		this.id = id;
