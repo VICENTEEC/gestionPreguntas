@@ -5,6 +5,12 @@ import org.springframework.hateoas.server.core.Relation;
 
 import es.mdef.gestionPreguntas.entidades.Usuario.Role;
 
+
+// La clase UsuarioModel.java es un modelo de representación utilizado para estructurar y simplificar la respuesta 
+// de la API REST. Esta clase extiende la clase RepresentationModel<UsuarioModel>, que es parte del módulo Spring HATEOAS 
+// y proporciona soporte para agregar enlaces a la representación de recursos.
+
+//La anotación @Relation(itemRelation = "usuario") indica que este modelo representa un recurso individual de tipo "usuario" en las respuestas de la API. 
 @Relation(itemRelation="usuario")
 public class UsuarioModel extends RepresentationModel<UsuarioModel>{
 	
