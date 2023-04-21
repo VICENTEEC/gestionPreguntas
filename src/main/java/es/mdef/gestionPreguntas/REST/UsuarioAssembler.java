@@ -7,6 +7,8 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
+import es.mdef.gestionPreguntas.entidades.Administrador;
+import es.mdef.gestionPreguntas.entidades.NoAdministrador;
 import es.mdef.gestionPreguntas.entidades.Usuario;
 
 // La clase UsuarioAssembler.java es un componente que se utiliza para convertir entidades Usuario en modelos de 
@@ -14,7 +16,7 @@ import es.mdef.gestionPreguntas.entidades.Usuario;
 // RepresentationModelAssembler<Usuario, EntityModel<Usuario>> de Spring HATEOAS y anota con @Component para que Spring 
 // la reconozca como un bean y la gestione automáticamente. 
 @Component
-public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, EntityModel<Usuario>>{
+public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, UsuarioModel>{
 	
 	// Este método toma una entidad Usuario como argumento y crea un
 	// EntityModel<Usuario> a partir de ella. El EntityModel se crea con el método
@@ -24,11 +26,26 @@ public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, E
 	// los detalles de un usuario específico.
 	
 	@Override
-	public EntityModel<Usuario> toModel(Usuario entity) {
-		EntityModel<Usuario> model = EntityModel.of(entity);
-		model.add(
-				linkTo(methodOn(UsuarioController.class).one(entity.getId())).withSelfRel()
-				);
+	public UsuarioModel toModel(Usuario entity) {
+		UsuarioModel model = new UsuarioModel();
+		
+		switch (entity.getRole()) {
+			case Administrador: {
+				Administrador adm = (Administrador) entity;
+				model.setTelefono(adm.getTelefono());
+				break;
+			}
+			case NoAdministrador: {
+				NoAdministrador noAdministrador = (NoAdministrador) entity;
+				model.setDepartamento(noAdministrador.getDepartamento());
+				model.setTipo(noAdministrador.getTipo());
+			}
+			default:
+		}
+        model.setNombre(entity.getNombre());
+        model.setNombreUsuario(entity.getNombreUsuario());
+        model.setRole(entity.getRole());
+		model.add(linkTo(methodOn(UsuarioController.class).one(entity.getId())).withSelfRel());
 		return model;
 	}
 	
@@ -38,6 +55,24 @@ public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, E
 	// creado.
 	public Usuario toEntity(UsuarioModel model) {
 		Usuario usuario = new Usuario();
+		
+		switch (model.getRole()) {
+			case Administrador: {
+				Administrador adm = new Administrador();
+				adm.setTelefono(model.getTelefono());
+				usuario = adm;
+				break;
+			}
+			case NoAdministrador: {
+				NoAdministrador noAdministrador = new NoAdministrador();
+				noAdministrador.setDepartamento(model.getDepartamento());
+				noAdministrador.setTipo(model.getTipo());
+				usuario = noAdministrador;
+				break;
+			}
+			default:
+				throw new IllegalArgumentException("Unexpected value: " + model.getRole());
+			}
 		usuario.setNombre(model.getNombre());
 		usuario.setNombreUsuario(model.getNombreUsuario());
 		usuario.setRole(model.getRole());
