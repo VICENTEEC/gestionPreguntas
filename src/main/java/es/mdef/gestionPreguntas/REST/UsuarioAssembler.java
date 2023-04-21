@@ -3,7 +3,6 @@ package es.mdef.gestionPreguntas.REST;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
@@ -75,7 +74,6 @@ public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, U
 			}
 		usuario.setNombre(model.getNombre());
 		usuario.setNombreUsuario(model.getNombreUsuario());
-		usuario.setRole(model.getRole());
 		return usuario;
 	}
 }

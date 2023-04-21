@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import es.mdef.gestionPreguntas.entidades.Administrador;
 import es.mdef.gestionPreguntas.entidades.NoAdministrador;
 import es.mdef.gestionPreguntas.entidades.Usuario;
-import es.mdef.gestionPreguntas.entidades.Usuario.Role;
 
 @Component
 public class UsuarioPutAssembler implements RepresentationModelAssembler<Usuario, UsuarioPutModel> {
@@ -61,7 +60,6 @@ public class UsuarioPutAssembler implements RepresentationModelAssembler<Usuario
 
         usuario.setNombre(model.getNombre());
         usuario.setNombreUsuario(model.getNombreUsuario());
-        usuario.setRole(model.getRole());
         return usuario;
     }
 

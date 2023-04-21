@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import es.mdef.gestionPreguntas.entidades.Administrador;
 import es.mdef.gestionPreguntas.entidades.NoAdministrador;
 import es.mdef.gestionPreguntas.entidades.Usuario;
-import es.mdef.gestionPreguntas.entidades.Usuario.Role;
 
 @Component
 public class UsuarioPostAssembler implements RepresentationModelAssembler<Usuario, UsuarioPostModel> {
@@ -63,7 +62,6 @@ public class UsuarioPostAssembler implements RepresentationModelAssembler<Usuari
         usuario.setNombre(model.getNombre());
         usuario.setNombreUsuario(model.getNombreUsuario());
         usuario.setContrasena(model.getContrasena());
-        usuario.setRole(model.getRole());
         return usuario;
     }
 }
