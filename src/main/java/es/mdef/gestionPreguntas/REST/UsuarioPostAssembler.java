@@ -33,6 +33,7 @@ public class UsuarioPostAssembler implements RepresentationModelAssembler<Usuari
         }
         model.setNombre(entity.getNombre());
         model.setNombreUsuario(entity.getNombreUsuario());
+        model.setContrasena(entity.getContrasena());
         model.setRole(entity.getRole());
         model.add(linkTo(methodOn(UsuarioController.class).one(entity.getId())).withSelfRel());
         return model;
