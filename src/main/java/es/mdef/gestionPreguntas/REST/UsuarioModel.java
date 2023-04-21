@@ -70,7 +70,4 @@ public class UsuarioModel extends RepresentationModel<UsuarioModel>{
 	public void setRole(Role role) {
 		this.role = role;
 	}
-
-	
-	
 }
