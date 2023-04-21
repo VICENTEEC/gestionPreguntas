@@ -22,6 +22,7 @@ public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, E
 	// método add. El enlace HATEOAS apunta al método one del controlador
 	// UsuarioController, permitiendo a los clientes de la API navegar fácilmente a
 	// los detalles de un usuario específico.
+	
 	@Override
 	public EntityModel<Usuario> toModel(Usuario entity) {
 		EntityModel<Usuario> model = EntityModel.of(entity);
