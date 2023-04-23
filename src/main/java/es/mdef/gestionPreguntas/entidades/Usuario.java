@@ -1,5 +1,7 @@
 package es.mdef.gestionPreguntas.entidades;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -14,6 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -31,11 +34,12 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @JsonIgnore
     private Long id;
     private String nombre;
     private String nombreUsuario;
     private String contrasena;
+    @OneToMany(mappedBy = "usuario")
+    List<Pregunta> preguntas;
 
     public Long getId() {
         return id;
@@ -66,7 +70,15 @@ public class Usuario {
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
-    @Override
+    
+    public List<Pregunta> getPreguntas() {
+		return preguntas;
+	}
+	public void setPreguntas(List<Pregunta> preguntas) {
+		this.preguntas = preguntas;
+	}
+	
+	@Override
     public String toString() {
         return "Usuario [id=" + id + ", nombre=" + nombre + ", nombreUsuario=" + nombreUsuario + ", contrasena="
                 + contrasena + "]";
