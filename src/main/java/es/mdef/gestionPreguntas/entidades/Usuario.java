@@ -34,6 +34,7 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
     private String nombre;
     private String nombreUsuario;
