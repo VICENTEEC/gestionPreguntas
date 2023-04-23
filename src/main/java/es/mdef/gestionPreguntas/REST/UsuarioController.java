@@ -1,5 +1,11 @@
 package es.mdef.gestionPreguntas.REST;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.mdef.gestionPreguntas.GestionPreguntasApplication;
 import es.mdef.gestionPreguntas.entidades.Administrador;
 import es.mdef.gestionPreguntas.entidades.NoAdministrador;
+import es.mdef.gestionPreguntas.entidades.Pregunta;
 import es.mdef.gestionPreguntas.entidades.Usuario;
 import es.mdef.gestionPreguntas.repositorios.UsuarioRepositorio;
 import jakarta.persistence.criteria.CriteriaBuilder.Case;
@@ -32,6 +39,7 @@ public class UsuarioController {
 	private final UsuarioListaAssembler listaAssembler;
 	private final UsuarioPostAssembler postAssembler;
 	private final UsuarioPutAssembler putAssembler;
+	private final PreguntaListaAssembler preguntaListaAssembler;
 	private final Logger log;
 	
 	
@@ -41,12 +49,13 @@ public class UsuarioController {
 	// y modelos. Además, el constructor inicializa un objeto Logger para realizar
 	// registros de eventos durante el ciclo de vida del controlador.
 	UsuarioController(UsuarioRepositorio repositorio, UsuarioAssembler assembler, UsuarioListaAssembler listaAssembler,
-			UsuarioPostAssembler postAssembler, UsuarioPutAssembler putAssembler) {
+			UsuarioPostAssembler postAssembler, UsuarioPutAssembler putAssembler, PreguntaListaAssembler preguntaListaAssembler) {
 		this.repositorio = repositorio;
 		this.assembler = assembler;
 		this.listaAssembler = listaAssembler;
 		this.postAssembler = postAssembler;
 		this.putAssembler = putAssembler;
+		this.preguntaListaAssembler = preguntaListaAssembler;
 		log = GestionPreguntasApplication.log;
 	}
 	
@@ -81,6 +90,17 @@ public class UsuarioController {
 	public CollectionModel<UsuarioListaModel> usuariosPorNombreUsuario(@RequestParam String nombreUsuario) {
 		return listaAssembler.toCollection(
 				repositorio.findUsuarioByNombreUsuario(nombreUsuario)
+				);
+	}
+	
+	@GetMapping("{id}/preguntas")
+	public CollectionModel<PreguntaListaModel> preguntas(@PathVariable Long id) {
+		List<Pregunta> preguntas = repositorio.findById(id)
+				.orElseThrow(() -> new RegisterNotFoundException(id, "usuario"))
+				.getPreguntas();
+		return CollectionModel.of(
+				preguntas.stream().map(pregunta -> preguntaListaAssembler.toModel(pregunta)).collect(Collectors.toList()),
+				linkTo(methodOn(UsuarioController.class).one(id)).slash("preguntas").withSelfRel()
 				);
 	}
 	
