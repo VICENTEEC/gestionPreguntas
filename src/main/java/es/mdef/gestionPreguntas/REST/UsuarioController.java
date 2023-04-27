@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.mdef.gestionPreguntas.GestionPreguntasApplication;
 import es.mdef.gestionPreguntas.entidades.Administrador;
+import es.mdef.gestionPreguntas.entidades.FamiliaImpl;
 import es.mdef.gestionPreguntas.entidades.NoAdministrador;
 import es.mdef.gestionPreguntas.entidades.Pregunta;
 import es.mdef.gestionPreguntas.entidades.Usuario;
@@ -40,6 +41,7 @@ public class UsuarioController {
 	private final UsuarioPostAssembler postAssembler;
 	private final UsuarioPutAssembler putAssembler;
 	private final PreguntaListaAssembler preguntaListaAssembler;
+	private final FamiliaListaAssembler familiaListaAssembler;
 	private final Logger log;
 	
 	
@@ -49,13 +51,14 @@ public class UsuarioController {
 	// y modelos. Además, el constructor inicializa un objeto Logger para realizar
 	// registros de eventos durante el ciclo de vida del controlador.
 	UsuarioController(UsuarioRepositorio repositorio, UsuarioAssembler assembler, UsuarioListaAssembler listaAssembler,
-			UsuarioPostAssembler postAssembler, UsuarioPutAssembler putAssembler, PreguntaListaAssembler preguntaListaAssembler) {
+			UsuarioPostAssembler postAssembler, UsuarioPutAssembler putAssembler, PreguntaListaAssembler preguntaListaAssembler, FamiliaListaAssembler familiaListaAssembler) {
 		this.repositorio = repositorio;
 		this.assembler = assembler;
 		this.listaAssembler = listaAssembler;
 		this.postAssembler = postAssembler;
 		this.putAssembler = putAssembler;
 		this.preguntaListaAssembler = preguntaListaAssembler;
+		this.familiaListaAssembler = familiaListaAssembler;
 		log = GestionPreguntasApplication.log;
 	}
 	
@@ -94,7 +97,7 @@ public class UsuarioController {
 	}
 	
 	@GetMapping("{id}/preguntas")
-	public CollectionModel<PreguntaListaModel> preguntas(@PathVariable Long id) {
+	public CollectionModel<PreguntaListaModel> preguntasUsuario(@PathVariable Long id) {
 		List<Pregunta> preguntas = repositorio.findById(id)
 				.orElseThrow(() -> new RegisterNotFoundException(id, "usuario"))
 				.getPreguntas();
@@ -104,6 +107,18 @@ public class UsuarioController {
 				);
 	}
 	
+	@GetMapping("{id}/familias")
+	public CollectionModel<FamiliaListaModel> familiasUsuario(@PathVariable Long id) {
+		   Usuario usuario = repositorio.findById(id)
+		            .orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
+
+		    List<FamiliaImpl> familiaImpl = usuario.getPreguntas().stream()
+		            .map(Pregunta::getFamilia)
+		            .distinct()
+		            .collect(Collectors.toList());
+
+		    return familiaListaAssembler.toCollection(familiaImpl);	    
+	}
 	// Este método @PostMapping maneja las solicitudes POST para agregar un nuevo
 	// usuario. Convierte el UsuarioModel proporcionado en una entidad Usuario
 	// utilizando el ensamblador, luego guarda la entidad en el repositorio y

@@ -56,8 +56,7 @@ public class Pregunta {
 	}
 	@Override
 	public String toString() {
-		return "Pregunta [id=" + id + ", enunciado=" + enunciado + ", usuario=" + usuario + ", familia=" + familia
-				+ "]";
+		return "Pregunta [id=" + id + ", enunciado=" + enunciado + ", usuario=" + usuario + "]";
 	}
 
 	

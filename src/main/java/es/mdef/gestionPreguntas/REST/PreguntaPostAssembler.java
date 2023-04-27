@@ -15,9 +15,12 @@ public class PreguntaPostAssembler implements RepresentationModelAssembler<Pregu
 	public PreguntaPostModel toModel(Pregunta entity) {
 		PreguntaPostModel model = new PreguntaPostModel();
 		model.setEnunciado(entity.getEnunciado());
+		model.setUsuario(entity.getUsuario());
+		model.setFamilia(entity.getFamilia());
 		model.add(
 				linkTo(methodOn(PreguntaController.class).one(entity.getId())).withSelfRel(),
-				linkTo(methodOn(UsuarioController.class).one(entity.getUsuario().getId())).withRel("usuario")
+				linkTo(methodOn(UsuarioController.class).one(entity.getUsuario().getId())).withRel("usuariodesdePregPA"),
+				linkTo(methodOn(FamiliaController.class).one(entity.getFamilia().getId())).withRel("familiadesdePregPA")
 				);
 		return model;
 	}

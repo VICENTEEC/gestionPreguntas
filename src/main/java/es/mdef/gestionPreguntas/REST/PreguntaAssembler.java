@@ -16,11 +16,13 @@ public class PreguntaAssembler implements RepresentationModelAssembler <Pregunta
 	@Override
 	public PreguntaModel toModel(Pregunta entity) {
 		PreguntaModel model = new PreguntaModel();
+		model.setEnunciado(entity.getEnunciado());     //////////////////////////////////////////////////////////
 		model.add(
 				linkTo(methodOn(PreguntaController.class).one(entity.getId())).withSelfRel(),
-				linkTo(methodOn(UsuarioController.class).one(entity.getUsuario().getId())).withRel("usuario")
+				linkTo(methodOn(UsuarioController.class).one(entity.getUsuario().getId())).withRel("usuarioDesdePreguntaAssembler"),
+				linkTo(methodOn(FamiliaController.class).one(entity.getFamilia().getId())).withRel("familiaDesdePreguntaAssembler")
 				);
-        model.setEnunciado(entity.getEnunciado()); // ////////////////////////////////////////////////////////
+
 		return model;
 	}
 	

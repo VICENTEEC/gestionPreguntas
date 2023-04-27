@@ -22,7 +22,7 @@ public class PreguntaListaAssembler implements RepresentationModelAssembler<Preg
 			model.setEnunciado(entity.getEnunciado());
 			model.add(
 					linkTo(methodOn(PreguntaController.class).one(entity.getId())).withSelfRel(),
-					linkTo(methodOn(UsuarioController.class).one(entity.getUsuario().getId())).withRel("usuarioooooo")
+					linkTo(methodOn(UsuarioController.class).one(entity.getUsuario().getId())).withRel("usuariodesdePreguntListAssembler")
 					);
 			return model;
 	}
@@ -32,7 +32,7 @@ public class PreguntaListaAssembler implements RepresentationModelAssembler<Preg
 				lista.stream().map(this::toModel).collect(Collectors.toList())
 				);
 		collection.add(
-				linkTo(methodOn(PreguntaController.class).all()).withRel("preguntassssssssss")
+				linkTo(methodOn(PreguntaController.class).all()).withRel("preguntasdesdePreguntListAssembler")
 				);
 		return collection;
 	}

@@ -36,8 +36,7 @@ public class PreguntaController {
 	
 	@GetMapping("{id}")
 	public PreguntaModel one(@PathVariable Long id) {
-		Pregunta pregunta = repositorio.findById(id)
-				.orElseThrow(() -> new RegisterNotFoundException(id, "pregunta"));
+		Pregunta pregunta = repositorio.findById(id).orElseThrow(() -> new RegisterNotFoundException(id, "pregunta"));
 		log.info("Recuperado " + pregunta);
 		return assembler.toModel(pregunta);
 	}
@@ -54,6 +53,7 @@ public class PreguntaController {
 		Pregunta pregunta = repositorio.findById(id).map(prg -> {
 			prg.setEnunciado(model.getEnunciado());
 			prg.setUsuario(model.getUsuario());
+			prg.setFamilia(model.getFamilia());
 			return repositorio.save(prg);
 		})
 		.orElseThrow(() -> new RegisterNotFoundException(id, "pregunta"));

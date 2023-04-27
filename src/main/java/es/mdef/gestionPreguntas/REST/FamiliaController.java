@@ -85,7 +85,7 @@ public class FamiliaController {
 	@GetMapping("{id}/preguntas")
 	public CollectionModel<PreguntaListaModel> preguntasEnFamilias(@PathVariable Long id) {
 		List<Pregunta> preguntas = repositorio.findById(id)
-				.orElseThrow(() -> new RegisterNotFoundException(id, "usuario"))
+				.orElseThrow(() -> new RegisterNotFoundException(id, "familia"))
 				.getPreguntas();
 		return CollectionModel.of(
 				preguntas.stream().map(pregunta -> preguntaListaAssembler.toModel(pregunta)).collect(Collectors.toList()),
@@ -94,14 +94,16 @@ public class FamiliaController {
 	}
 	
 	@GetMapping("{id}/usuarios")
-	public CollectionModel<PreguntaListaModel> usuariosEnFamilias(@PathVariable Long id) {
-		List<Pregunta> preguntas = repositorio.findById(id)
-				.orElseThrow(() -> new RegisterNotFoundException(id, "usuario"))
-				.getPreguntas();
-		return CollectionModel.of(
-				preguntas.stream().map(pregunta -> preguntaListaAssembler.toModel(pregunta)).collect(Collectors.toList()),
-				linkTo(methodOn(UsuarioController.class).one(id)).slash("preguntas").withSelfRel()
-				);
+	public CollectionModel<UsuarioListaModel> usuariosEnFamilias(@PathVariable Long id) {
+		   FamiliaImpl familiaImpl = repositorio.findById(id)
+		            .orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
+
+		    List<Usuario> usuarios = familiaImpl.getPreguntas().stream()
+		            .map(Pregunta::getUsuario)
+		            .distinct()
+		            .collect(Collectors.toList());
+
+		    return usuarioListaAssembler.toCollection(usuarios);
 	}
 	
 	@PostMapping
