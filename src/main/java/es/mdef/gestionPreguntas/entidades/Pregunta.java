@@ -25,6 +25,10 @@ public class Pregunta {
 	@JoinColumn(name="UsuarioId")
 	private Usuario usuario;
 	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="FamiliaId")
+	private FamiliaImpl familia;
+	
 	public Long getId() {
 		return id;
 	}
@@ -44,8 +48,17 @@ public class Pregunta {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
+	public FamiliaImpl getFamilia() {
+		return familia;
+	}
+	public void setFamilia(FamiliaImpl familia) {
+		this.familia = familia;
+	}
 	@Override
 	public String toString() {
-		return "Pregunta [id=" + id + ", enunciado=" + enunciado + "]";
+		return "Pregunta [id=" + id + ", enunciado=" + enunciado + ", usuario=" + usuario + ", familia=" + familia
+				+ "]";
 	}
+
+	
 }

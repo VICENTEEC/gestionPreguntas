@@ -10,8 +10,10 @@ sourceCompatibility = '17'
 
 repositories {
 	mavenCentral()
-	flatDir {                             ///////////////////////////////////////////////////////////////////LIBRERIA EXTERNA ARCHIVO .JAR
-		dirs("src/main/resources")        ///////////////////////////////////////////////////////////////////LIBRERIA EXTERNA ARCHIVO .JAR
+	//necesario para añadir una librería externa
+	flatDir {
+       dirs("src/main/resources")
+   }
 }
 
 dependencies {
@@ -21,7 +23,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation ':support'         ///////////////////////////////////////////////////////////////////LIBRERIA EXTERNA ARCHIVO .JAR
+	implementation ':support'   
 }
 
 tasks.named('test') {

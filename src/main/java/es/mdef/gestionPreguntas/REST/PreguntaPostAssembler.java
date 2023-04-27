@@ -26,6 +26,7 @@ public class PreguntaPostAssembler implements RepresentationModelAssembler<Pregu
 		Pregunta pregunta = new Pregunta();
 		pregunta.setEnunciado(model.getEnunciado());
 		pregunta.setUsuario(model.getUsuario());
+		pregunta.setFamilia(model.getFamilia());
 		return pregunta;
 	}
 }

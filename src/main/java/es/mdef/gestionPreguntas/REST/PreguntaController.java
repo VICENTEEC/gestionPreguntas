@@ -50,8 +50,10 @@ public class PreguntaController {
 	
 	@PutMapping("{id}")
 	public PreguntaModel edit(@PathVariable Long id, @RequestBody PreguntaPostModel model) {
+//		System.err.println(model);
 		Pregunta pregunta = repositorio.findById(id).map(prg -> {
 			prg.setEnunciado(model.getEnunciado());
+			prg.setUsuario(model.getUsuario());
 			return repositorio.save(prg);
 		})
 		.orElseThrow(() -> new RegisterNotFoundException(id, "pregunta"));
