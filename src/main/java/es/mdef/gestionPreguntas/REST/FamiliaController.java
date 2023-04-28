@@ -85,12 +85,12 @@ public class FamiliaController {
 	@GetMapping("{id}/preguntas")
 	public CollectionModel<PreguntaListaModel> preguntasEnFamilias(@PathVariable Long id) {
 		List<Pregunta> preguntas = repositorio.findById(id)
-				.orElseThrow(() -> new RegisterNotFoundException(id, "familia"))
+				.orElseThrow(() -> new RegisterNotFoundException(id, "familia"))     ////////////////////////////////////////////////////TO MODEL
 				.getPreguntas();
 		return CollectionModel.of(
-				preguntas.stream().map(pregunta -> preguntaListaAssembler.toModel(pregunta)).collect(Collectors.toList()),
-				linkTo(methodOn(UsuarioController.class).one(id)).slash("preguntas").withSelfRel()
-				);
+				preguntas.stream().map(pregunta -> preguntaListaAssembler.toModel(pregunta)).collect(Collectors.toList()),     //////////TO COLLECTION
+				linkTo(methodOn(FamiliaController.class).preguntasEnFamilias(id)).withSelfRel()///////(methodOn(FamiliaController.class): ESTO COGE LO DE ARRIBA: @RequestMapping("/familias")
+				);                                                                             /////// preguntasEnFamilias(id)  : ESTO COGE LO DE AQUI: @GetMapping("{id}/preguntas")       
 	}
 	
 	@GetMapping("{id}/usuarios")
@@ -103,7 +103,10 @@ public class FamiliaController {
 		            .distinct()
 		            .collect(Collectors.toList());
 
-		    return usuarioListaAssembler.toCollection(usuarios);
+		    return CollectionModel.of(
+					usuarios.stream().map(usuario -> usuarioListaAssembler.toModel(usuario)).collect(Collectors.toList()),     //////////TO COLLECTION
+					linkTo(methodOn(FamiliaController.class).usuariosEnFamilias(id)).withSelfRel()///////(methodOn(FamiliaController.class): ESTO COGE LO DE ARRIBA: @RequestMapping("/familias")
+					); 
 	}
 	
 	@PostMapping

@@ -112,12 +112,16 @@ public class UsuarioController {
 		   Usuario usuario = repositorio.findById(id)
 		            .orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
 
-		    List<FamiliaImpl> familiaImpl = usuario.getPreguntas().stream()
+		    List<FamiliaImpl> familiasImpl = usuario.getPreguntas().stream()
 		            .map(Pregunta::getFamilia)
 		            .distinct()
 		            .collect(Collectors.toList());
 
-		    return familiaListaAssembler.toCollection(familiaImpl);	    
+		    return CollectionModel.of(
+		    		familiasImpl.stream().map(familiaImpl -> familiaListaAssembler.toModel(familiaImpl)).collect(Collectors.toList()),
+		    		linkTo(methodOn(UsuarioController.class).familiasUsuario(id)).withSelfRel()
+		    		);
+//		    return familiaListaAssembler.toCollection(familiaImpl);	    
 	}
 	// Este método @PostMapping maneja las solicitudes POST para agregar un nuevo
 	// usuario. Convierte el UsuarioModel proporcionado en una entidad Usuario
