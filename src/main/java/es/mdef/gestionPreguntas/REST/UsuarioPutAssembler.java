@@ -31,8 +31,12 @@ public class UsuarioPutAssembler implements RepresentationModelAssembler<Usuario
             default:
         }
         model.setNombre(entity.getNombre());
-        model.setNombreUsuario(entity.getNombreUsuario());
+        model.setUsername(entity.getUsername());
         model.setRole(entity.getRole());
+        model.setAccountNonExpired(entity.isAccountNonExpired());
+        model.setAccountNonLocked(entity.isAccountNonLocked());
+        model.setCredentialsNonExpired(entity.isCredentialsNonExpired());
+        model.setEnabled(entity.isEnabled());
         model.add(linkTo(methodOn(UsuarioController.class).one(entity.getId())).withSelfRel());
         return model;
     }
@@ -59,7 +63,7 @@ public class UsuarioPutAssembler implements RepresentationModelAssembler<Usuario
 			}
 
         usuario.setNombre(model.getNombre());
-        usuario.setNombreUsuario(model.getNombreUsuario());
+        usuario.setUsername(model.getUsername());
         return usuario;
     }
 

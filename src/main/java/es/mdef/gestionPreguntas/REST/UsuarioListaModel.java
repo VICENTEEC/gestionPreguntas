@@ -8,15 +8,15 @@ import es.mdef.gestionPreguntas.entidades.Usuario.Role;
 @Relation(collectionRelation = "usuarios")
 public class UsuarioListaModel extends RepresentationModel<UsuarioListaModel>{
 	private String nombre;
-	private String nombreUsuario;
+	private String username;
 	private Role role;
 	
 	public String getNombre() {
 		return nombre;
 	}
 	
-	public String getNombreUsuario() {
-		return nombreUsuario;
+	public String getUsername() {
+		return username;
 	}
 
 	public Role getRole() {
@@ -26,8 +26,8 @@ public class UsuarioListaModel extends RepresentationModel<UsuarioListaModel>{
 		this.nombre = nombre;
 	}
 
-	public void setNombreUsuario(String nombreUsuario) {
-		this.nombreUsuario = nombreUsuario;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public void setRole(Role role) {

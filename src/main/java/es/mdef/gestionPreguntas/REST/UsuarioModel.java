@@ -6,23 +6,28 @@ import org.springframework.hateoas.server.core.Relation;
 import es.mdef.gestionPreguntas.entidades.NoAdministrador.Departamento;
 import es.mdef.gestionPreguntas.entidades.NoAdministrador.Tipo;
 import es.mdef.gestionPreguntas.entidades.Usuario.Role;
+import jakarta.persistence.Column;
 
 @Relation(itemRelation="usuario")
 public class UsuarioModel extends RepresentationModel<UsuarioModel>{
 	
 	private String nombre;
-	private String nombreUsuario;
+	private String username;
 	private Departamento departamento;
 	private Tipo tipo;
 	private String telefono;
 	private Role role;
+	private boolean accountNonExpired;
+	private boolean accountNonLocked;
+	private boolean credentialsNonExpired;
+	private boolean enabled;
 	
 	public String getNombre() {
 		return nombre;
 	}
 	
-	public String getNombreUsuario() {
-		return nombreUsuario;
+	public String getUsername() {
+		return username;
 	}
 	
 	public Departamento getDepartamento() {
@@ -45,8 +50,8 @@ public class UsuarioModel extends RepresentationModel<UsuarioModel>{
 		this.nombre = nombre;
 	}
 	
-	public void setNombreUsuario(String nombreUsuario) {
-		this.nombreUsuario = nombreUsuario;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
 	public void setDepartamento(Departamento departamento) {
@@ -64,4 +69,37 @@ public class UsuarioModel extends RepresentationModel<UsuarioModel>{
 	public void setRole(Role role) {
 		this.role = role;
 	}
+
+	public boolean isAccountNonExpired() {
+		return accountNonExpired;
+	}
+
+	public void setAccountNonExpired(boolean accountNonExpired) {
+		this.accountNonExpired = accountNonExpired;
+	}
+
+	public boolean isAccountNonLocked() {
+		return accountNonLocked;
+	}
+
+	public void setAccountNonLocked(boolean accountNonLocked) {
+		this.accountNonLocked = accountNonLocked;
+	}
+
+	public boolean isCredentialsNonExpired() {
+		return credentialsNonExpired;
+	}
+
+	public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+		this.credentialsNonExpired = credentialsNonExpired;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+	
 }

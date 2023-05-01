@@ -26,6 +26,7 @@ public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, U
 	
 	@Override
 	public UsuarioModel toModel(Usuario entity) {
+		entity.setPassword(null); ///////////////////////////////////
 		UsuarioModel model = new UsuarioModel();
 		
 		switch (entity.getRole()) {
@@ -42,8 +43,12 @@ public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, U
 			default:
 		}
         model.setNombre(entity.getNombre());
-        model.setNombreUsuario(entity.getNombreUsuario());
+        model.setUsername(entity.getUsername());
         model.setRole(entity.getRole());
+        model.setAccountNonExpired(entity.isAccountNonExpired());
+        model.setAccountNonLocked(entity.isAccountNonLocked());
+        model.setCredentialsNonExpired(entity.isCredentialsNonExpired());
+        model.setEnabled(entity.isEnabled());
 		model.add(
 				linkTo(methodOn(UsuarioController.class).one(entity.getId())).withSelfRel(),
 				linkTo(methodOn(UsuarioController.class).preguntasUsuario(entity.getId())).withRel("preguntasdesdeUsuarioAssembler"),
@@ -77,7 +82,7 @@ public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, U
 				throw new IllegalArgumentException("Unexpected value: " + model.getRole());
 			}
 		usuario.setNombre(model.getNombre());
-		usuario.setNombreUsuario(model.getNombreUsuario());
+		usuario.setUsername(model.getUsername());
 		return usuario;
 	}
 }

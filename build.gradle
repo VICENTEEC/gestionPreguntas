@@ -21,9 +21,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	runtimeOnly 'com.h2database:h2'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'//////////////
+	implementation 'org.springframework.boot:spring-boot-starter-security' ////////////////
+	//runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.postgresql:postgresql'      ///////////Para conectar con elephantsql
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation ':support'   
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'	/////////////necesario para gestionar tokens
+	implementation ':support'   /////////////añadiendo librería externa
+	implementation 'javax.xml.bind:jaxb-api:2.3.1' ////////////necesario para jjwt
+
 }
 
 tasks.named('test') {

@@ -8,8 +8,11 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,6 +29,7 @@ import es.mdef.gestionPreguntas.entidades.Pregunta;
 import es.mdef.gestionPreguntas.entidades.Usuario;
 import es.mdef.gestionPreguntas.repositorios.UsuarioRepositorio;
 import jakarta.persistence.criteria.CriteriaBuilder.Case;
+import jakarta.validation.Valid;
 
 
 
@@ -90,9 +94,9 @@ public class UsuarioController {
 	// encontradas en una colección de modelos UsuarioListaModel utilizando el
 	// ensamblador de lista.
 	@GetMapping("porNombreUsuario")
-	public CollectionModel<UsuarioListaModel> usuariosPorNombreUsuario(@RequestParam String nombreUsuario) {
+	public CollectionModel<UsuarioListaModel> usuariosPorNombreUsuario(@RequestParam String username) {
 		return listaAssembler.toCollection(
-				repositorio.findUsuarioByNombreUsuario(nombreUsuario)
+				repositorio.findUsuarioByUsername(username)
 				);
 	}
 	
@@ -128,7 +132,8 @@ public class UsuarioController {
 	// utilizando el ensamblador, luego guarda la entidad en el repositorio y
 	// devuelve un modelo EntityModel<Usuario> para el usuario recién creado
 	@PostMapping
-	public UsuarioModel add(@RequestBody UsuarioPostModel model) {
+	public UsuarioModel add(@Valid @RequestBody UsuarioPostModel model) {
+		model.setPassword(new BCryptPasswordEncoder().encode(model.getPassword()));
 		Usuario usuario = repositorio.save(postAssembler.toEntity(model));
 		log.info("Añadido " + usuario);
 		return assembler.toModel(usuario);
@@ -159,12 +164,27 @@ public class UsuarioController {
 				}
 			}
 			usr.setNombre(model.getNombre());
-			usr.setNombreUsuario(model.getNombreUsuario());
+			usr.setUsername(model.getUsername());
+			usr.setAccountNonExpired(model.isAccountNonExpired());
+			usr.setAccountNonLocked(model.isAccountNonLocked());
+			usr.setCredentialsNonExpired(model.isCredentialsNonExpired());
+			usr.setEnabled(model.isEnabled());
 			return repositorio.save(usr);
 		})
 		.orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
 		log.info("Actualizado " + usuario);
 		return assembler.toModel(usuario);
+	}
+	
+	@PatchMapping("{id}/cambiarContrasena")
+	public UsuarioModel edit(@PathVariable Long id, @RequestBody String newPassword) {
+		Usuario nuevoUsuario = repositorio.findById(id).map(usu -> {
+			usu.setPassword(new BCryptPasswordEncoder().encode(newPassword));
+			return repositorio.save(usu);
+		})
+		.orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
+		log.info("Contraseña cambiada al usuario  " + nuevoUsuario);
+		return assembler.toModel(nuevoUsuario);
 	}
 
 	// Este método @DeleteMapping maneja las solicitudes DELETE para eliminar un

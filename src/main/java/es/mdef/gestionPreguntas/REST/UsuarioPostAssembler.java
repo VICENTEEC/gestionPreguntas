@@ -31,9 +31,13 @@ public class UsuarioPostAssembler implements RepresentationModelAssembler<Usuari
             default:
         }
         model.setNombre(entity.getNombre());
-        model.setNombreUsuario(entity.getNombreUsuario());
-        model.setContrasena(entity.getContrasena());
+        model.setUsername(entity.getUsername());
+        model.setPassword(entity.getPassword());
         model.setRole(entity.getRole());
+        model.setAccountNonExpired(entity.isAccountNonExpired());
+        model.setAccountNonLocked(entity.isAccountNonLocked());
+        model.setCredentialsNonExpired(entity.isCredentialsNonExpired());
+        model.setEnabled(entity.isEnabled());
         model.add(linkTo(methodOn(UsuarioController.class).one(entity.getId())).withSelfRel());
         return model;
     }
@@ -60,8 +64,8 @@ public class UsuarioPostAssembler implements RepresentationModelAssembler<Usuari
         }
 
         usuario.setNombre(model.getNombre());
-        usuario.setNombreUsuario(model.getNombreUsuario());
-        usuario.setContrasena(model.getContrasena());
+        usuario.setUsername(model.getUsername());
+        usuario.setPassword(model.getPassword());
         return usuario;
     }
 }
