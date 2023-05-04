@@ -177,14 +177,13 @@ public class UsuarioController {
 	}
 	
 	@PatchMapping("{id}/cambiarContrasena")
-	public UsuarioModel edit(@PathVariable Long id, @RequestBody String newPassword) {
+	public void edit(@PathVariable Long id, @RequestBody String newPassword) {
 		Usuario nuevoUsuario = repositorio.findById(id).map(usu -> {
 			usu.setPassword(new BCryptPasswordEncoder().encode(newPassword));
 			return repositorio.save(usu);
 		})
 		.orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
 		log.info("Contraseña cambiada al usuario  " + nuevoUsuario);
-		return assembler.toModel(nuevoUsuario);
 	}
 
 	// Este método @DeleteMapping maneja las solicitudes DELETE para eliminar un
