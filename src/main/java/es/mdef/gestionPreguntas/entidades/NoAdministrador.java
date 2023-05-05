@@ -9,7 +9,8 @@ import jakarta.persistence.Enumerated;
 @DiscriminatorValue("N")
 public class NoAdministrador extends Usuario {
 
-    public static enum Departamento {
+    private static final long serialVersionUID = 1L;
+	public static enum Departamento {
         EMIES,
         CCESP
     }
