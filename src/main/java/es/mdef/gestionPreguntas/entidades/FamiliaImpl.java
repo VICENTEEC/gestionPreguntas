@@ -1,5 +1,6 @@
 package es.mdef.gestionPreguntas.entidades;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -21,9 +22,9 @@ public class FamiliaImpl extends es.mdef.support.Familia{
     @JsonIgnore
     private Long id;
 	@Column(name="tamano")
-	private Long tamano;
+	private int tamano;
 	@OneToMany(mappedBy = "familia")
-	private List<Pregunta> preguntas;
+	private List<Pregunta> preguntas = new ArrayList<>();
 	
 	
 	public Long getId() {
@@ -32,12 +33,13 @@ public class FamiliaImpl extends es.mdef.support.Familia{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getTamano() {
-		return tamano;
+	public int getTamano() {
+		return getPreguntas().size();
 	}
-	public void setTamano(Long tamano) {
+	public void setTamano(int tamano) {
 		this.tamano = tamano;
 	}
+
 	public List<Pregunta> getPreguntas() {
 		return preguntas;
 	}

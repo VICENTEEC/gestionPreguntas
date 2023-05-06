@@ -7,7 +7,7 @@ import org.springframework.hateoas.server.core.Relation;
 public class FamiliaModel extends RepresentationModel <FamiliaModel>{
 
 	private String enunciado;
-	private Long tamano;
+	private int tamano;
 	
 	public String getEnunciado() {
 		return enunciado;
@@ -15,10 +15,11 @@ public class FamiliaModel extends RepresentationModel <FamiliaModel>{
 	public void setEnunciado(String enunciado) {
 		this.enunciado = enunciado;
 	}
-	public Long getTamano() {
+
+	public int getTamano() {
 		return tamano;
 	}
-	public void setTamano(Long tamano) {
+	public void setTamano(int tamano) {
 		this.tamano = tamano;
 	}
 	@Override
