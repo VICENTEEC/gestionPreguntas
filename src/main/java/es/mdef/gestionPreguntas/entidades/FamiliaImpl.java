@@ -21,8 +21,7 @@ public class FamiliaImpl extends es.mdef.support.Familia{
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @JsonIgnore
     private Long id;
-	@Column(name="tamano")
-	private int tamano;
+
 	@OneToMany(mappedBy = "familia")
 	private List<Pregunta> preguntas = new ArrayList<>();
 	
@@ -33,13 +32,9 @@ public class FamiliaImpl extends es.mdef.support.Familia{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public int getTamano() {
+	public long getTamano() {
 		return getPreguntas().size();
 	}
-	public void setTamano(int tamano) {
-		this.tamano = tamano;
-	}
-
 	public List<Pregunta> getPreguntas() {
 		return preguntas;
 	}
@@ -48,7 +43,7 @@ public class FamiliaImpl extends es.mdef.support.Familia{
 	}
 	@Override
 	public String toString() {
-		return "FamiliaImpl [id=" + id + ", tamano=" + tamano + ", preguntas=" + preguntas + "]";
+		return "FamiliaImpl [id=" + id + ", preguntas=" + preguntas + "]";
 	}
 	
 }

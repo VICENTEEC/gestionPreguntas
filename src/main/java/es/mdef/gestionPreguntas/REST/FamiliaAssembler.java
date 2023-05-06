@@ -28,7 +28,6 @@ public class FamiliaAssembler implements RepresentationModelAssembler<FamiliaImp
 	public FamiliaImpl toEntity(FamiliaModel model) {
 		FamiliaImpl familiaImpl = new FamiliaImpl();
 		familiaImpl.setEnunciado(model.getEnunciado());
-		familiaImpl.setTamano(model.getTamano());
 		return familiaImpl;
 	}
 }
