@@ -22,7 +22,7 @@ public class FamiliaImpl extends es.mdef.support.Familia{
     @JsonIgnore
     private Long id;
 
-	@OneToMany(mappedBy = "familia")
+	@OneToMany(mappedBy = "familia")                                          //RELACIONES
 	private List<Pregunta> preguntas = new ArrayList<>();
 	
 	

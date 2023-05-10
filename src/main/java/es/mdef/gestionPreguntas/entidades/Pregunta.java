@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="PREGUNTAS")
@@ -17,14 +19,18 @@ public class Pregunta {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	
+	@NotBlank(message="enunciado es obligatorio en la clase Pregunta")
 	private String enunciado;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="UsuarioId")
+	@NotNull(message="usuario es obligatorio en la clase Pregunta")
+	@ManyToOne(fetch=FetchType.LAZY)            //RELACIONES
+	@JoinColumn(name="UsuarioId")               //RELACIONES. ESTO CREA UNA NUEVA COLUMNA EN LA BASE DE DATOS
 	private Usuario usuario;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="FamiliaId")
+	@NotNull(message="familia es obligatoria en la clase Pregunta")
+	@ManyToOne(fetch=FetchType.LAZY)            //RELACIONES
+	@JoinColumn(name="FamiliaId")               //RELACIONES. ESTO CREA UNA NUEVA COLUMNA EN LA BASE DE DATOS
 	private FamiliaImpl familia;
 	
 	public Long getId() {

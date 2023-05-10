@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.mdef.gestionPreguntas.GestionPreguntasApplication;
 import es.mdef.gestionPreguntas.entidades.Pregunta;
 import es.mdef.gestionPreguntas.repositorios.PreguntaRepositorio;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/preguntas")
@@ -68,7 +69,7 @@ public class PreguntaController {
 	}
 		
 	@PostMapping
-	public PreguntaModel add(@RequestBody PreguntaPostModel model) {
+	public PreguntaModel add(@Valid @RequestBody PreguntaPostModel model) {
 		Pregunta pregunta = repositorio.save(postAssembler.toEntity(model));
 		log.info("Añadida" + pregunta);
 		return assembler.toModel(pregunta);

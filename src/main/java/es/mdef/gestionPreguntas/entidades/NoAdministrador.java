@@ -4,9 +4,10 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
-@DiscriminatorValue("N")
+@DiscriminatorValue("N")   ///////HERENCIA
 public class NoAdministrador extends Usuario {
 
     private static final long serialVersionUID = 1L;
@@ -21,9 +22,11 @@ public class NoAdministrador extends Usuario {
         administracion
     }
 
+    @NotNull(message="departamento es obligatorio en el usuario no administrador")
     @Enumerated(EnumType.STRING)
     private Departamento departamento;
 
+    @NotNull(message="tipo es obligatorio en el usuario no administrador")
     @Enumerated(EnumType.STRING)
     private Tipo tipo;
 

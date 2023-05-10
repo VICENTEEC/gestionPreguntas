@@ -24,6 +24,7 @@ import es.mdef.gestionPreguntas.entidades.Pregunta;
 import es.mdef.gestionPreguntas.entidades.Usuario;
 import es.mdef.gestionPreguntas.repositorios.FamiliaImplRepositorio;
 import es.mdef.gestionPreguntas.repositorios.PreguntaRepositorio;
+import jakarta.validation.Valid;
 
 
 @RestController()
@@ -110,7 +111,7 @@ public class FamiliaController {
 	}
 	
 	@PostMapping
-	public FamiliaModel add(@RequestBody FamiliaPostModel model) {
+	public FamiliaModel add(@Valid @RequestBody FamiliaPostModel model) {
 		FamiliaImpl familiaImpl = repositorio.save(postAssembler.toEntity(model));
 		log.info("Añadida " + familiaImpl);
 		return assembler.toModel(familiaImpl);

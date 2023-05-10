@@ -2,11 +2,14 @@ package es.mdef.gestionPreguntas.entidades;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
-@DiscriminatorValue("A")
+@DiscriminatorValue("A")   ///////HERENCIA
 public class Administrador extends Usuario{
 	private static final long serialVersionUID = 1L;
+	
+    @NotNull(message="telefono es obligatorio en el usuario administrador")
 	private String telefono;
 
 	public String getTelefono() {
@@ -19,7 +22,6 @@ public class Administrador extends Usuario{
 	
 	@Override
 	public Role getRole() {
-		// TODO Auto-generated method stub
 		return Role.Administrador;
 	}
 

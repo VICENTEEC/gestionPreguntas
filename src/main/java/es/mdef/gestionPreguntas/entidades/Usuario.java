@@ -29,12 +29,12 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotBlank;
 
-@Entity
-@Table(name="USUARIOS")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE) 
-@DiscriminatorColumn(name="tipo_role", discriminatorType = DiscriminatorType.CHAR)
-@DiscriminatorValue("null")
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
+@Entity                         ////PRIMER VIDEO CREACION USUARIOS
+@Table(name="USUARIOS")         ////PRIMER VIDEO CREACION USUARIOS
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)                             ////HERENCIA 
+@DiscriminatorColumn(name="tipo_role", discriminatorType = DiscriminatorType.CHAR)////HERENCIA
+@DiscriminatorValue("null")                                                       ////HERENCIA
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})            ////HERENCIA
 public class Usuario implements UserDetails {
 	private static final long serialVersionUID = 1L;///////////////////
     public static enum Role {
@@ -46,10 +46,16 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @JsonIgnore
     private Long id;
+    
+    @NotBlank(message="nombre es obligatorio en la clase Usuario")
     private String nombre;
+    
+    @NotBlank(message="username es obligatorio en la clase Usuario")
     private String username;
-    @NotBlank(message="contraseña es un campo obligatorio de la clase Usuario")
+    
+    @NotBlank(message="contraseña es obligatoria en la clase Usuario")
     private String password;
+    
 	@Column(name="cuenta_activa")
 	private boolean accountNonExpired = true;
 	@Column(name="cuenta_desbloqueada")
@@ -59,7 +65,7 @@ public class Usuario implements UserDetails {
 	@Column(name="habilitada")
 	private boolean enabled = true;
     
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario")                //RELACIONES
     List<Pregunta> preguntas;
 
     public Long getId() {
