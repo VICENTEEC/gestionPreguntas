@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import jakarta.validation.ConstraintViolationException;
+
 @RestControllerAdvice
 public class ArgumentNotValidExceptionHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -24,4 +26,17 @@ public class ArgumentNotValidExceptionHandler {
 	    });
 	    return errors;
 	}
+	
+	 @ResponseStatus(HttpStatus.BAD_REQUEST)
+	    @ExceptionHandler(ConstraintViolationException.class)
+	    public Map<String, String> handleValidationExceptions2(
+	    		ConstraintViolationException ex) {
+	        Map<String, String> errors = new HashMap<>();
+	        ex.getConstraintViolations().forEach((violation) -> {
+	            String fieldName = violation.getPropertyPath().toString();
+	            String errorMessage = violation.getMessage();
+	            errors.put(fieldName, errorMessage);
+	        });
+	        return errors;
+	    }
 }
